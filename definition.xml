@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================
+ ソルバーの基本情報
+============================================= -->
+<SolverDefinition
+  name="Debug_solver"
+  caption="Debug solver"
+  version="1.0.24013101"
+  copyright="Keita Hoshino"
+  release="2024.01.31"
+  homepage=""
+  executable="debug_solver.py"
+  iterationtype="time"
+  gridtype="structured2d"
+>
+
+    <!-- ============================================
+     計算条件の定義
+    ============================================= -->
+    <CalculationCondition>
+        <Tab name="time" caption="time">
+            <Item name="time_end" caption="time end">
+                <Definition valueType="integer" default="4"/>
+            </Item>
+        </Tab>
+    </CalculationCondition>
+
+</SolverDefinition>
