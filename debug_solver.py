@@ -50,8 +50,14 @@ velocity_2_x.fill(1.0)
 depth.fill(1.0)
 
 for j in range(jsize):
-    velocity_1_y[:, j] = 1 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
-    velocity_2_y[:, j] = 2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    if j > math.floor(jsize / 2) - 1:
+        velocity_1_y[:, j] = -1 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+        velocity_2_y[:, j] = -2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    else:
+        velocity_1_y[:, j] = 1 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+        velocity_2_y[:, j] = 2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+
+for j in range(jsize):
     n_scolar_r_1[:, j] = 1 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
     n_scolar_r_2[:, j] = 2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
     n_scolar_r_3[:, j] = 3 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
