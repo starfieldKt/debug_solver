@@ -26,23 +26,23 @@ velocity_2_y = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
 
 depth = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
 
-n_scolar_r_1 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
-n_scolar_r_2 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
-n_scolar_r_3 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
-n_scolar_r_4 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
-n_scolar_r_5 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
+n_scalar_r_1 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
+n_scalar_r_2 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
+n_scalar_r_3 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
+n_scalar_r_4 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
+n_scalar_r_5 = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
 
-c_scolar_r_1 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
-c_scolar_r_2 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
-c_scolar_r_3 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
-c_scolar_r_4 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
-c_scolar_r_5 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
+c_scalar_r_1 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
+c_scalar_r_2 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
+c_scalar_r_3 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
+c_scalar_r_4 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
+c_scalar_r_5 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
 
-c_scolar_i_1 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
-c_scolar_i_2 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
-c_scolar_i_3 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
-c_scolar_i_4 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
-c_scolar_i_5 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
+c_scalar_i_1 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
+c_scalar_i_2 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
+c_scalar_i_3 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
+c_scalar_i_4 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
+c_scalar_i_5 = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.int32)
 
 # 値を入れていく
 velocity_1_x.fill(1.0)
@@ -58,25 +58,25 @@ for j in range(jsize):
         velocity_2_y[:, j] = 2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
 
 for j in range(jsize):
-    n_scolar_r_1[:, j] = 1 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
-    n_scolar_r_2[:, j] = 2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
-    n_scolar_r_3[:, j] = 3 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
-    n_scolar_r_4[:, j] = 4 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
-    n_scolar_r_5[:, j] = 5 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    n_scalar_r_1[:, j] = 1 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    n_scalar_r_2[:, j] = 2 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    n_scalar_r_3[:, j] = 3 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    n_scalar_r_4[:, j] = 4 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    n_scalar_r_5[:, j] = 5 * (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
 
 for j in range(jsize - 1):
-    c_scolar_r_1[:, j] = 1 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
-    c_scolar_r_2[:, j] = 2 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
-    c_scolar_r_3[:, j] = 3 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
-    c_scolar_r_4[:, j] = 4 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
-    c_scolar_r_5[:, j] = 5 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
+    c_scalar_r_1[:, j] = 1 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
+    c_scalar_r_2[:, j] = 2 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
+    c_scalar_r_3[:, j] = 3 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
+    c_scalar_r_4[:, j] = 4 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
+    c_scalar_r_5[:, j] = 5 * (math.cos(j / (jsize - 2) * 2 * math.pi) + 1) / 2
 
 for j in range(jsize - 1):
-    c_scolar_i_1[:, j] = (j + 1) % 1
-    c_scolar_i_2[:, j] = (j + 1) % 2
-    c_scolar_i_3[:, j] = (j + 1) % 3
-    c_scolar_i_4[:, j] = (j + 1) % 4
-    c_scolar_i_5[:, j] = (j + 1) % 5
+    c_scalar_i_1[:, j] = (j + 1) % 1
+    c_scalar_i_2[:, j] = (j + 1) % 2
+    c_scalar_i_3[:, j] = (j + 1) % 3
+    c_scalar_i_4[:, j] = (j + 1) % 4
+    c_scalar_i_5[:, j] = (j + 1) % 5
 
 # 結果の書き込み
 iric.cg_iRIC_Write_Sol_Start(fid)
@@ -102,49 +102,49 @@ for t in range(time_end + 1):
         fid, "velocity_2Y", velocity_2_y.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Node_Real(
-        fid, "node_scolar_r1", n_scolar_r_1.flatten(order="F")
+        fid, "node_scalar_r1", n_scalar_r_1.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Node_Real(
-        fid, "node_scolar_r2", n_scolar_r_2.flatten(order="F")
+        fid, "node_scalar_r2", n_scalar_r_2.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Node_Real(
-        fid, "node_scolar_r3", n_scolar_r_3.flatten(order="F")
+        fid, "node_scalar_r3", n_scalar_r_3.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Node_Real(
-        fid, "node_scolar_r4", n_scolar_r_4.flatten(order="F")
+        fid, "node_scalar_r4", n_scalar_r_4.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Node_Real(
-        fid, "node_scolar_r5", n_scolar_r_5.flatten(order="F")
+        fid, "node_scalar_r5", n_scalar_r_5.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Real(
-        fid, "cell_scolar_r1", c_scolar_r_1.flatten(order="F")
+        fid, "cell_scalar_r1", c_scalar_r_1.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Real(
-        fid, "cell_scolar_r2", c_scolar_r_2.flatten(order="F")
+        fid, "cell_scalar_r2", c_scalar_r_2.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Real(
-        fid, "cell_scolar_r3", c_scolar_r_3.flatten(order="F")
+        fid, "cell_scalar_r3", c_scalar_r_3.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Real(
-        fid, "cell_scolar_r4", c_scolar_r_4.flatten(order="F")
+        fid, "cell_scalar_r4", c_scalar_r_4.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Real(
-        fid, "cell_scolar_r5", c_scolar_r_5.flatten(order="F")
+        fid, "cell_scalar_r5", c_scalar_r_5.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Integer(
-        fid, "cell_scolar_i1", c_scolar_i_1.flatten(order="F")
+        fid, "cell_scalar_i1", c_scalar_i_1.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Integer(
-        fid, "cell_scolar_i2", c_scolar_i_2.flatten(order="F")
+        fid, "cell_scalar_i2", c_scalar_i_2.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Integer(
-        fid, "cell_scolar_i3", c_scolar_i_3.flatten(order="F")
+        fid, "cell_scalar_i3", c_scalar_i_3.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Integer(
-        fid, "cell_scolar_i4", c_scolar_i_4.flatten(order="F")
+        fid, "cell_scalar_i4", c_scalar_i_4.flatten(order="F")
     )
     iric.cg_iRIC_Write_Sol_Cell_Integer(
-        fid, "cell_scolar_i5", c_scolar_i_5.flatten(order="F")
+        fid, "cell_scalar_i5", c_scalar_i_5.flatten(order="F")
     )
     print("t= " + str(t))
 
