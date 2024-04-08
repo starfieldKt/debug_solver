@@ -6,9 +6,9 @@
 <SolverDefinition
   name="Debug_solver"
   caption="Debug solver"
-  version="1.0.24020201"
+  version="1.0.24040801"
   copyright="Keita Hoshino"
-  release="2024.02.02"
+  release="2024.04.08"
   homepage=""
   executable="debug_solver.py"
   iterationtype="time"
@@ -21,9 +21,19 @@
     <CalculationCondition>
         <Tab name="time" caption="time">
             <Item name="time_end" caption="time end">
-                <Definition valueType="integer" default="4"/>
+                <Definition valueType="integer" default="10"/>
+            </Item>
+            <Item name="n_n_scalar_r" caption="Number of node scalar(real)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
+            <Item name="n_c_scalar_r" caption="Number of cell scalar(real)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
+            <Item name="n_c_scalar_i" caption="Number of cell scalar(integer)">
+                <Definition valueType="integer" default="2" min="0"/>
             </Item>
         </Tab>
+        
     </CalculationCondition>
 
 </SolverDefinition>
