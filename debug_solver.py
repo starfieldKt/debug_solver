@@ -35,6 +35,26 @@ fid = iric.cg_iRIC_Open(cgns_name, iric.IRIC_MODE_MODIFY)
 # 格子サイズを読み込み
 isize, jsize = iric.cg_iRIC_Read_Grid2d_Str_Size(fid)
 
+# 格子点の座標読み込み
+# --------------------------------------------------
+# メモ
+# --------------------------------------------------
+# CGNSから読み込む時は1次元配列、順番は以下
+# --------------------------------------------------
+#      j
+#      ↑
+#     4| 24, 25, 26, 27, 28, 29
+#     3| 18, 19, 20, 21, 22, 23
+#     2| 12, 13, 14, 15, 16, 17
+#     1|  6,  7,  8,  9, 10, 11
+#     0|  0,  1,  2,  3,  4,  5
+#       ----------------------- →　i
+#         0   1   2   3   4   5
+# --------------------------------------------------
+grid_x_arr, grid_y_arr = iric.cg_iRIC_Read_Grid2d_Coords(fid)
+grid_x_arr = grid_x_arr.reshape(jsize, isize).T
+grid_y_arr = grid_y_arr.reshape(jsize, isize).T
+
 # 計算時間を読み込み
 time_end = iric.cg_iRIC_Read_Integer(fid, "time_end")
 
@@ -130,6 +150,48 @@ print("----------mainloop start----------")
 ###############################################################################
 
 for t in range(time_end + 1):
+
+    ###########################################################################
+    # パーティクルの座標計算開始
+    ###########################################################################
+
+    # 初期位置
+    # [i, j, x座標 y座標]
+    if t == 0:
+        particles = [
+            [0, 0, grid_x_arr[0][0], grid_y_arr[0][0]],
+            [isize - 1, 0, grid_x_arr[isize - 1][0], grid_y_arr[isize - 1][0]],
+            [
+                isize - 1,
+                jsize - 1,
+                grid_x_arr[isize - 1][jsize - 1],
+                grid_y_arr[isize - 1][jsize - 1],
+            ],
+            [0, jsize - 1, grid_x_arr[0][jsize - 1], grid_y_arr[0][jsize - 1]],
+        ]
+    else:
+        for i_particle in range(4):
+
+            i_tmp = particles[i_particle][0]
+            j_tmp = particles[i_particle][1]
+
+            if j_tmp == 0 and i_tmp < isize - 1:
+                i_tmp += 1
+            elif j_tmp == jsize - 1 and i_tmp > 0:
+                i_tmp -= 1
+            elif i_tmp == 0 and j_tmp > 0:
+                j_tmp -= 1
+            elif i_tmp == isize - 1 and j_tmp < jsize - 1:
+                j_tmp += 1
+
+            int
+            particles[i_particle] = [
+                i_tmp,
+                j_tmp,
+                grid_x_arr[i_tmp][j_tmp],
+                grid_y_arr[i_tmp][j_tmp],
+            ]
+
     ###########################################################################
     # 結果の書き込みスタート
     ###########################################################################
@@ -184,6 +246,27 @@ for t in range(time_end + 1):
             iric.cg_iRIC_Write_Sol_Cell_Integer(
                 fid, "cell_scalar_i" + str(k + 1), c_scalar_i[k].flatten(order="F")
             )
+
+    # パーティクルの出力
+    # =============================================================================
+
+    # Particle groupの出力開始
+    iric.cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(fid, "ParticleGroup_1")
+
+    # 各Particleの座標と値を書き込み
+    for i_particle in range(4):
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Pos2d(
+            fid, float(particles[i_particle][2]), float(particles[i_particle][3])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Integer(
+            fid, "index_i", particles[i_particle][0]
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Integer(
+            fid, "index_j", particles[i_particle][1]
+        )
+
+    # Particle groupの出力終了
+    iric.cg_iRIC_Write_Sol_ParticleGroup_GroupEnd(fid)
 
     # CGNSへの書き込み終了をGUIに伝える
     iric.cg_iRIC_Write_Sol_End(fid)
