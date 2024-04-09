@@ -69,6 +69,10 @@ n_n_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_n_scalar_i")
 n_c_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_c_scalar_r")
 n_c_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_c_scalar_i")
 
+# 何秒で1回転するか
+
+rotation_cycle = iric.cg_iRIC_Read_Integer(fid, "rotation_cycle")
+
 ###############################################################################
 # メモリ確保
 ###############################################################################
@@ -173,15 +177,16 @@ for t in range(time_end + 1):
     # [i, j, x座標 y座標]
     if t == 0:
         particles = [
-            [0, 0, grid_x_arr[0][0], grid_y_arr[0][0]],
-            [isize - 1, 0, grid_x_arr[isize - 1][0], grid_y_arr[isize - 1][0]],
+            [0, 0, grid_x_arr[0][0], grid_y_arr[0][0], 0],
+            [isize - 1, 0, grid_x_arr[isize - 1][0], grid_y_arr[isize - 1][0], 0],
             [
                 isize - 1,
                 jsize - 1,
                 grid_x_arr[isize - 1][jsize - 1],
                 grid_y_arr[isize - 1][jsize - 1],
+                0,
             ],
-            [0, jsize - 1, grid_x_arr[0][jsize - 1], grid_y_arr[0][jsize - 1]],
+            [0, jsize - 1, grid_x_arr[0][jsize - 1], grid_y_arr[0][jsize - 1], 0],
         ]
     else:
         for i_particle in range(4):
@@ -198,12 +203,15 @@ for t in range(time_end + 1):
             elif i_tmp == isize - 1 and j_tmp < jsize - 1:
                 j_tmp += 1
 
+            tmp_angle = float(360 * (t % rotation_cycle / rotation_cycle))
+
             int
             particles[i_particle] = [
                 i_tmp,
                 j_tmp,
                 grid_x_arr[i_tmp][j_tmp],
                 grid_y_arr[i_tmp][j_tmp],
+                tmp_angle,
             ]
 
     ###########################################################################
@@ -268,10 +276,10 @@ for t in range(time_end + 1):
                 fid, "cell_scalar_i" + str(k + 1), c_scalar_i[k].flatten(order="F")
             )
 
-    # パーティクルの出力
-    # =============================================================================
+    # パーティクルの出力 ここから
+    # =========================================================================
 
-    # Particle groupの出力開始
+    # Particle group_1の出力開始
     iric.cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(fid, "ParticleGroup_1")
 
     # 各Particleの座標と値を書き込み
@@ -286,8 +294,59 @@ for t in range(time_end + 1):
             fid, "index_j", particles[i_particle][1]
         )
 
-    # Particle groupの出力終了
+    # Particle group_1の出力終了
     iric.cg_iRIC_Write_Sol_ParticleGroup_GroupEnd(fid)
+
+    # Particle group_2の出力開始
+    iric.cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(fid, "ParticleGroup_2")
+
+    # 各Particleの座標と値を書き込み
+    for i_particle in range(4):
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Pos2d(
+            fid, float(particles[i_particle][2]), float(particles[i_particle][3])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Integer(
+            fid, "index_i", particles[i_particle][0]
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Integer(
+            fid, "index_j", particles[i_particle][1]
+        )
+
+    # Particle group_2の出力終了
+    iric.cg_iRIC_Write_Sol_ParticleGroup_GroupEnd(fid)
+
+    # Particle group image_1の出力開始
+    iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(fid, "Particle_imageGroup_1")
+
+    # 各Particleの座標と値を書き込み
+    for i_particle in range(4):
+        iric.cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(
+            fid,
+            float(particles[i_particle][2]),
+            float(particles[i_particle][3]),
+            float(particles[i_particle][0]),
+            float(particles[i_particle][4]),
+        )
+
+    iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(fid)
+
+    # Particle group image_2の出力開始
+    iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(fid, "Particle_imageGroup_2")
+
+    # 各Particleの座標と値を書き込み
+    for i_particle in range(4):
+        iric.cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(
+            fid,
+            float(particles[i_particle][2]),
+            float(particles[i_particle][3]),
+            float(particles[i_particle][1]),
+            float(-particles[i_particle][4]),
+        )
+
+    iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(fid)
+
+    # =========================================================================
+    # パーティクルの出力 ここまで
 
     # CGNSへの書き込み終了をGUIに伝える
     iric.cg_iRIC_Write_Sol_End(fid)
