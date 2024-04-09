@@ -35,6 +35,18 @@
             <Item name="n_c_scalar_i" caption="Number of cell scalar(integer)">
                 <Definition valueType="integer" default="2" min="0"/>
             </Item>
+            <Item name="n_ie_scalar_r" caption="Number of iedge scalar(real)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
+            <Item name="n_ie_scalar_i" caption="Number of iedge scalar(integer)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
+            <Item name="n_je_scalar_r" caption="Number of jedge scalar(real)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
+            <Item name="n_je_scalar_i" caption="Number of jedge scalar(integer)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
             <Item name="rotation_cycle" caption="Rotation cycle">
                 <Definition valueType="integer" default="360" min="1"/>
             </Item>

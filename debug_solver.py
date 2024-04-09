@@ -68,6 +68,10 @@ n_n_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_n_scalar_r")
 n_n_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_n_scalar_i")
 n_c_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_c_scalar_r")
 n_c_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_c_scalar_i")
+n_ie_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_ie_scalar_r")
+n_ie_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_ie_scalar_i")
+n_je_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_je_scalar_r")
+n_je_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_je_scalar_i")
 
 # 何秒で1回転するか
 
@@ -115,12 +119,47 @@ if n_c_scalar_i > 0:
         for _ in range(n_c_scalar_i)
     ]
 
+# i方向境界面実数
+if n_ie_scalar_r > 0:
+    ie_scalar_r = [
+        np.zeros(shape=(isize, jsize - 1), order="F", dtype=np.float32)
+        for _ in range(n_ie_scalar_r)
+    ]
+
+# i方向境界面整数
+if n_ie_scalar_i > 0:
+    ie_scalar_i = [
+        np.zeros(shape=(isize, jsize - 1), order="F", dtype=np.int32)
+        for _ in range(n_ie_scalar_i)
+    ]
+
+# j方向境界面実数
+if n_je_scalar_r > 0:
+    je_scalar_r = [
+        np.zeros(shape=(isize - 1, jsize), order="F", dtype=np.float32)
+        for _ in range(n_je_scalar_r)
+    ]
+
+# j方向境界面整数
+if n_je_scalar_i > 0:
+    je_scalar_i = [
+        np.zeros(shape=(isize - 1, jsize), order="F", dtype=np.int32)
+        for _ in range(n_je_scalar_i)
+    ]
+
+
 # 仮配列のメモリ確保
 if n_n_scalar_r > 0:
     tmp_n_scalar = np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
 
-if n_c_scalar_r > 0 or n_c_scalar_i > 0:
+if n_c_scalar_r > 0:
     tmp_c_scalar = np.zeros(shape=(isize - 1, jsize - 1), order="F", dtype=np.float32)
+
+if n_ie_scalar_r > 0:
+    tmp_ie_scalar = np.zeros(shape=(isize, jsize - 1), order="F", dtype=np.float32)
+
+if n_je_scalar_r > 0:
+    tmp_je_scalar = np.zeros(shape=(isize - 1, jsize), order="F", dtype=np.float32)
 
 ###############################################################################
 # 各種値の計算
@@ -160,6 +199,33 @@ if n_c_scalar_i > 0:
     for k in range(n_c_scalar_i):
         for j in range(jsize - 1):
             c_scalar_i[k][:, j] = (j + 1) % (k + 2)
+
+# i方向境界実数
+if n_ie_scalar_r > 0:
+    for i in range(isize):
+        tmp_ie_scalar[i, :] = (math.cos(i / (isize - 1) * 2 * math.pi) + 1) / 2
+    for k in range(n_ie_scalar_r):
+        ie_scalar_r[k] = tmp_ie_scalar * (k + 1)
+
+# i方向境界実数
+if n_ie_scalar_i > 0:
+    for k in range(n_ie_scalar_i):
+        for i in range(isize):
+            ie_scalar_i[k][i, :] = (i + 1) % (k + 2)
+
+# i方向境界実数
+if n_je_scalar_r > 0:
+    for j in range(jsize):
+        tmp_je_scalar[:, j] = (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
+    for k in range(n_je_scalar_r):
+        je_scalar_r[k] = tmp_je_scalar * (k + 1)
+
+# i方向境界実数
+if n_je_scalar_i > 0:
+    for k in range(n_je_scalar_i):
+        for j in range(jsize):
+            je_scalar_i[k][:, j] = (j + 1) % (k + 2)
+
 
 print("----------mainloop start----------")
 
@@ -274,6 +340,34 @@ for t in range(time_end + 1):
         for k in range(n_c_scalar_i):
             iric.cg_iRIC_Write_Sol_Cell_Integer(
                 fid, "cell_scalar_i" + str(k + 1), c_scalar_i[k].flatten(order="F")
+            )
+
+    # i方向境界実数値
+    if n_ie_scalar_r > 0:
+        for k in range(n_ie_scalar_r):
+            iric.cg_iRIC_Write_Sol_IFace_Real(
+                fid, "iedge_scalar_r" + str(k + 1), ie_scalar_r[k].flatten(order="F")
+            )
+
+    # i方向境界整数値
+    if n_ie_scalar_i > 0:
+        for k in range(n_ie_scalar_i):
+            iric.cg_iRIC_Write_Sol_IFace_Integer(
+                fid, "iedge_scalar_i" + str(k + 1), ie_scalar_i[k].flatten(order="F")
+            )
+
+    # j方向境界実数値
+    if n_je_scalar_r > 0:
+        for k in range(n_je_scalar_r):
+            iric.cg_iRIC_Write_Sol_JFace_Real(
+                fid, "jedge_scalar_r" + str(k + 1), je_scalar_r[k].flatten(order="F")
+            )
+
+    # j方向境界整数値
+    if n_ie_scalar_i > 0:
+        for k in range(n_ie_scalar_i):
+            iric.cg_iRIC_Write_Sol_JFace_Integer(
+                fid, "jedge_scalar_i" + str(k + 1), je_scalar_i[k].flatten(order="F")
             )
 
     # パーティクルの出力 ここから
