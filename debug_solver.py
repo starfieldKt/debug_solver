@@ -242,18 +242,21 @@ for t in range(time_end + 1):
     # 初期位置
     # [i, j, x座標 y座標]
     if t == 0:
-        particles = [
-            [0, 0, grid_x_arr[0][0], grid_y_arr[0][0], 0],
-            [isize - 1, 0, grid_x_arr[isize - 1][0], grid_y_arr[isize - 1][0], 0],
+        particles = np.array(
             [
-                isize - 1,
-                jsize - 1,
-                grid_x_arr[isize - 1][jsize - 1],
-                grid_y_arr[isize - 1][jsize - 1],
-                0,
+                [0, 0, grid_x_arr[0][0], grid_y_arr[0][0], 0],
+                [isize - 1, 0, grid_x_arr[isize - 1][0], grid_y_arr[isize - 1][0], 0],
+                [
+                    isize - 1,
+                    jsize - 1,
+                    grid_x_arr[isize - 1][jsize - 1],
+                    grid_y_arr[isize - 1][jsize - 1],
+                    0,
+                ],
+                [0, jsize - 1, grid_x_arr[0][jsize - 1], grid_y_arr[0][jsize - 1], 0],
             ],
-            [0, jsize - 1, grid_x_arr[0][jsize - 1], grid_y_arr[0][jsize - 1], 0],
-        ]
+            dtype="object",
+        )
     else:
         for i_particle in range(4):
 
@@ -373,6 +376,15 @@ for t in range(time_end + 1):
     # パーティクルの出力 ここから
     # =========================================================================
 
+    # Particleの出力
+    iric.cg_iRIC_Write_Sol_Particle_Pos2d(fid, particles[:, 2], particles[:, 3])
+    iric.cg_iRIC_Write_Sol_Particle_Integer(fid, "index_i", particles[:][0])
+    iric.cg_iRIC_Write_Sol_Particle_Integer(fid, "index_j", particles[:][1])
+    iric.cg_iRIC_Write_Sol_Particle_Real(fid, "v1X", particles[:][0].astype(float))
+    iric.cg_iRIC_Write_Sol_Particle_Real(fid, "v1Y", particles[:][1].astype(float))
+    iric.cg_iRIC_Write_Sol_Particle_Real(fid, "v2X", -particles[:][0].astype(float))
+    iric.cg_iRIC_Write_Sol_Particle_Real(fid, "v2Y", -particles[:][1].astype(float))
+
     # Particle group_1の出力開始
     iric.cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(fid, "ParticleGroup_1")
 
@@ -386,6 +398,18 @@ for t in range(time_end + 1):
         )
         iric.cg_iRIC_Write_Sol_ParticleGroup_Integer(
             fid, "index_j", particles[i_particle][1]
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v1X", float(particles[i_particle][0])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v1Y", float(particles[i_particle][1])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v2X", float(-particles[i_particle][0])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v2Y", float(-particles[i_particle][1])
         )
 
     # Particle group_1の出力終了
@@ -404,6 +428,18 @@ for t in range(time_end + 1):
         )
         iric.cg_iRIC_Write_Sol_ParticleGroup_Integer(
             fid, "index_j", particles[i_particle][1]
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v1X", float(particles[i_particle][1])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v1Y", float(particles[i_particle][0])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v2X", float(-particles[i_particle][1])
+        )
+        iric.cg_iRIC_Write_Sol_ParticleGroup_Real(
+            fid, "v2Y", float(-particles[i_particle][0])
         )
 
     # Particle group_2の出力終了
