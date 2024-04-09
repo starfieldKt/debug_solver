@@ -274,7 +274,6 @@ for t in range(time_end + 1):
 
             tmp_angle = float(360 * (t % rotation_cycle / rotation_cycle))
 
-            int
             particles[i_particle] = [
                 i_tmp,
                 j_tmp,
