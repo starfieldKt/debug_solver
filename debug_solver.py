@@ -65,6 +65,7 @@ print("    jsize= " + str(jsize))
 
 # 各値を何種出すか読み込み
 n_n_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_n_scalar_r")
+n_n_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_n_scalar_i")
 n_c_scalar_r = iric.cg_iRIC_Read_Integer(fid, "n_c_scalar_r")
 n_c_scalar_i = iric.cg_iRIC_Read_Integer(fid, "n_c_scalar_i")
 
@@ -87,6 +88,13 @@ if n_n_scalar_r > 0:
     n_scalar_r = [
         np.zeros(shape=(isize, jsize), order="F", dtype=np.float32)
         for _ in range(n_n_scalar_r)
+    ]
+
+# 格子点整数値
+if n_n_scalar_i > 0:
+    n_scalar_i = [
+        np.zeros(shape=(isize, jsize), order="F", dtype=np.int32)
+        for _ in range(n_n_scalar_i)
     ]
 
 # セル実数値
@@ -129,6 +137,12 @@ if n_n_scalar_r > 0:
         tmp_n_scalar[:, j] = (math.cos(j / (jsize - 1) * 2 * math.pi) + 1) / 2
     for k in range(n_n_scalar_r):
         n_scalar_r[k] = tmp_n_scalar * (k + 1)
+
+# 格子点整数
+if n_n_scalar_i > 0:
+    for k in range(n_n_scalar_i):
+        for j in range(jsize):
+            n_scalar_i[k][:, j] = (j + 1) % (k + 2)
 
 # セル実数
 if n_c_scalar_r > 0:
@@ -231,6 +245,13 @@ for t in range(time_end + 1):
         for k in range(n_n_scalar_r):
             iric.cg_iRIC_Write_Sol_Node_Real(
                 fid, "node_scalar_r" + str(k + 1), n_scalar_r[k].flatten(order="F")
+            )
+
+    # 格子点整数値
+    if n_n_scalar_i > 0:
+        for k in range(n_n_scalar_i):
+            iric.cg_iRIC_Write_Sol_Node_Integer(
+                fid, "node_scalar_i" + str(k + 1), n_scalar_i[k].flatten(order="F")
             )
 
     # セル実数値

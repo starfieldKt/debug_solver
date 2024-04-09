@@ -26,6 +26,9 @@
             <Item name="n_n_scalar_r" caption="Number of node scalar(real)">
                 <Definition valueType="integer" default="2" min="0"/>
             </Item>
+            <Item name="n_n_scalar_i" caption="Number of node scalar(integer)">
+                <Definition valueType="integer" default="2" min="0"/>
+            </Item>
             <Item name="n_c_scalar_r" caption="Number of cell scalar(real)">
                 <Definition valueType="integer" default="2" min="0"/>
             </Item>
