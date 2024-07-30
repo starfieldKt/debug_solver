@@ -3,23 +3,23 @@
 <!-- ============================================
  ソルバーの基本情報
 ============================================= -->
-<SolverDefinition
-  name="Debug_solver"
-  caption="Debug solver"
-  version="1.1.24040901"
-  copyright="Keita Hoshino"
-  release="2024.04.09"
-  homepage=""
-  executable="debug_solver.py"
-  iterationtype="time"
-  gridtype="structured2d"
+<SolverDefinition 
+name="Debug_solver" 
+caption="Debug solver" 
+version="1.1.24040901" 
+copyright="Keita Hoshino" 
+release="2024.04.09" 
+homepage="" 
+executable="debug_solver.py" 
+iterationtype="time" 
+gridtype="structured2d"
 >
 
     <!-- ============================================
      計算条件の定義
     ============================================= -->
     <CalculationCondition>
-        <Tab name="time" caption="time">
+        <Tab name="Condition" caption="Condition">
             <Item name="time_end" caption="time end">
                 <Definition valueType="integer" default="10"/>
             </Item>
@@ -50,9 +50,97 @@
             <Item name="rotation_cycle" caption="Rotation cycle">
                 <Definition valueType="integer" default="360" min="1"/>
             </Item>
-
         </Tab>
-        
     </CalculationCondition>
+    <BoundaryCondition name="BoundaryCondition_n" caption="Boundary Condition(node)" position="node">
+        <Item name="BC_condition_n_fn" caption="BC_n_scalar_fn">
+			<Definition conditionType="functional">
+				<Parameter valueType="real" caption="x"/>
+				<Value valueType="real" caption="y"/>
+			</Definition>
+		</Item>
+        <Item name="BC_condition_n_r" caption="node(real)">
+            <Definition valueType="real" position="node" default="max" />
+        </Item>
+        <Item name="BC_condition_n_i" caption="node(integer)">
+            <Definition valueType="integer" position="node" default="max" />
+        </Item>
+        <Item name="BC_condition_n_c" caption="node(complex)">
+            <Definition valueType="complex" position="node">
+                <Item name="BC_condition_n_c_r" caption="node(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="BC_condition_n_c_i" caption="node(complex) value(integer)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+            </Definition>
+        </Item>
+    </BoundaryCondition>
+    <GridRelatedCondition>
+        <Item name="condition_n_r" caption="node(real)">
+            <Definition valueType="real" position="node" default="max" />
+        </Item>
+        <Item name="condition_n_i" caption="node(integer)">
+            <Definition valueType="integer" position="node" default="max" />
+        </Item>
+        <Item name="condition_n_c" caption="node(complex)">
+            <Definition valueType="complex" position="node">
+                <Item name="condition_n_c_r" caption="node(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="condition_n_c_i" caption="node(complex) value(integer)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+            </Definition>
+        </Item>
+        <Item name="condition_c_r" caption="cell(real)">
+            <Definition valueType="real" position="cell" default="max" />
+        </Item>
+        <Item name="condition_c_i" caption="cell(integer)">
+            <Definition valueType="integer" position="cell" default="max" />
+        </Item>
+        <Item name="condition_c_c" caption="cell(complex)">
+            <Definition valueType="complex" position="cell">
+                <Item name="condition_c_c_r" caption="cell(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="condition_c_c_i" caption="cell(complex) value(integer)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+            </Definition>
+        </Item>
+        <Item name="condition_ie_r" caption="iedge(real)">
+            <Definition valueType="real" position="iface" default="max" />
+        </Item>
+        <Item name="condition_ie_i" caption="iedge(integer)">
+            <Definition valueType="integer" position="iface" default="max" />
+        </Item>
+        <Item name="condition_ie_c" caption="iedge(complex)">
+            <Definition valueType="complex" position="iface">
+                <Item name="condition_ie_c_r" caption="iedge(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="condition_ie_c_i" caption="iedge(complex) value(integer)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+            </Definition>
+        </Item>
+        <Item name="condition_je_r" caption="jedge(real)">
+            <Definition valueType="real" position="jface" default="max" />
+        </Item>
+        <Item name="condition_je_i" caption="jedge(integer)">
+            <Definition valueType="integer" position="jface" default="max" />
+        </Item>
+        <Item name="condition_je_c" caption="jedge(complex)">
+            <Definition valueType="complex" position="jface">
+                <Item name="condition_je_c_r" caption="jedge(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="condition_je_c_i" caption="jedge(complex) value(integer)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+            </Definition>
+        </Item>
+    </GridRelatedCondition>
 
 </SolverDefinition>
