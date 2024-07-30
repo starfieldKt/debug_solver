@@ -453,7 +453,7 @@ for t in range(time_end + 1):
             fid,
             float(particles[i_particle][2]),
             float(particles[i_particle][3]),
-            float(particles[i_particle][0]),
+            float(particles[i_particle][0] / (isize - 1)),
             float(particles[i_particle][4]),
         )
 
@@ -468,7 +468,7 @@ for t in range(time_end + 1):
             fid,
             float(particles[i_particle][2]),
             float(particles[i_particle][3]),
-            float(particles[i_particle][1]),
+            float(particles[i_particle][1] / (jsize - 1)),
             float(-particles[i_particle][4]),
         )
 
