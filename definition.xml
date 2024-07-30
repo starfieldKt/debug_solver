@@ -6,9 +6,9 @@
 <SolverDefinition 
 name="Debug_solver" 
 caption="Debug solver" 
-version="1.1.24040901" 
+version="1.1.2024073001" 
 copyright="Keita Hoshino" 
-release="2024.04.09" 
+release="2024.07.30" 
 homepage="" 
 executable="debug_solver.py" 
 iterationtype="time" 
