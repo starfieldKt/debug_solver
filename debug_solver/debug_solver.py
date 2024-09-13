@@ -2,6 +2,7 @@ import math
 import numpy as np
 import iric
 import sys
+import os
 
 print("----------Start----------")
 
@@ -27,6 +28,9 @@ fid = iric.cg_iRIC_Open(cgns_name, iric.IRIC_MODE_MODIFY)
 
 # CGNSをオープン
 # fid = iric.cg_iRIC_Open("./project/Case1.cgn", iric.IRIC_MODE_MODIFY)
+
+# 分割保存したい場合はこれを有効にする
+# os.environ['IRIC_SEPARATE_OUTPUT'] = '1'
 
 ###############################################################################
 # 計算条件を読み込み
