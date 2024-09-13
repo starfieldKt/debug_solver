@@ -52,30 +52,52 @@ gridtype="structured2d"
             </Item>
         </Tab>
     </CalculationCondition>
+
     <BoundaryCondition name="BoundaryCondition_n" caption="Boundary Condition(node)" position="node">
-        <Item name="BC_condition_n_fn" caption="BC_n_scalar_fn">
+        <Item name="BC_n_fn" caption="BC_n_scalar_fn">
 			<Definition conditionType="functional">
 				<Parameter valueType="real" caption="x"/>
 				<Value valueType="real" caption="y"/>
 			</Definition>
 		</Item>
-        <Item name="BC_condition_n_r" caption="node(real)">
-            <Definition valueType="real" position="node" default="max" />
+        <Item name="BC_n_r" caption="node(real)">
+            <Definition valueType="real" default="0" />
         </Item>
-        <Item name="BC_condition_n_i" caption="node(integer)">
-            <Definition valueType="integer" position="node" default="max" />
-        </Item>
-        <Item name="BC_condition_n_c" caption="node(complex)">
-            <Definition valueType="complex" position="node">
-                <Item name="BC_condition_n_c_r" caption="node(complex) value(real)">
-                    <Definition valueType="real" default="0" />
-                </Item>
-                <Item name="BC_condition_n_c_i" caption="node(complex) value(integer)">
-                    <Definition valueType="real" default="0" />
-                </Item>
-            </Definition>
+        <Item name="BC_n_i" caption="node(integer)">
+            <Definition valueType="integer" default="0" />
         </Item>
     </BoundaryCondition>
+    
+    <BoundaryCondition name="BoundaryCondition_c" caption="Boundary Condition(cell)" position="cell">
+        <Item name="BC_c_fn" caption="BC_n_scalar_fn">
+			<Definition conditionType="functional">
+				<Parameter valueType="real" caption="x"/>
+				<Value valueType="real" caption="y"/>
+			</Definition>
+		</Item>
+        <Item name="BC_c_r" caption="cell(real)">
+            <Definition valueType="real" default="0" />
+        </Item>
+        <Item name="BC_c_i" caption="cell(integer)">
+            <Definition valueType="integer" default="0" />
+        </Item>
+    </BoundaryCondition>
+
+    <BoundaryCondition name="BoundaryCondition_e" caption="Boundary Condition(edge)" position="edge">
+        <Item name="BC_e_fn" caption="BC_e_scalar_fn">
+			<Definition conditionType="functional">
+				<Parameter valueType="real" caption="x"/>
+				<Value valueType="real" caption="y"/>
+			</Definition>
+		</Item>
+        <Item name="BC_e_r" caption="edge(real)">
+            <Definition valueType="real" default="0" />
+        </Item>
+        <Item name="BC_e_i" caption="edge(integer)">
+            <Definition valueType="integer" default="0" />
+        </Item>
+    </BoundaryCondition>
+
     <GridRelatedCondition>
         <Item name="condition_n_r" caption="node(real)">
             <Definition valueType="real" position="node" default="max" />
