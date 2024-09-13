@@ -2,6 +2,7 @@ import math
 import numpy as np
 import iric
 import sys
+import os
 
 print("----------Start----------")
 
@@ -27,6 +28,15 @@ fid = iric.cg_iRIC_Open(cgns_name, iric.IRIC_MODE_MODIFY)
 
 # CGNSをオープン
 # fid = iric.cg_iRIC_Open("./project/Case1.cgn", iric.IRIC_MODE_MODIFY)
+
+# 分割保存したい場合はこれを有効にする
+# os.environ['IRIC_SEPARATE_OUTPUT'] = '1'
+
+###############################################################################
+# 古い計算結果を削除
+###############################################################################
+
+iric.cg_iRIC_Clear_Sol(fid)
 
 ###############################################################################
 # 計算条件を読み込み
@@ -498,3 +508,17 @@ print("----------finish----------")
 # 計算終了処理
 ###############################################################################
 iric.cg_iRIC_Close(fid)
+
+###############################################################################
+# 計算結果を壊す処理（デバッグ用）
+###############################################################################
+
+# Case1を破壊
+# fname = 'Case1.cgn'
+# with open(fname, 'w') as f:
+#     f.write('BROKEN')
+
+# 分割する場合
+# fname = 'result/Solution' + str(time_end + 1) + '.cgn'
+# with open(fname, 'w') as f:
+#     f.write('BROKEN')
