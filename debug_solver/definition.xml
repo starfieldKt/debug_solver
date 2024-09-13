@@ -99,6 +99,7 @@ gridtype="structured2d"
     </BoundaryCondition>
 
     <GridRelatedCondition>
+        <!-- 格子点属性 -->
         <Item name="condition_n_r" caption="node(real)">
             <Definition valueType="real" position="node" default="max" />
         </Item>
@@ -111,10 +112,35 @@ gridtype="structured2d"
                     <Definition valueType="real" default="0" />
                 </Item>
                 <Item name="condition_n_c_i" caption="node(complex) value(integer)">
-                    <Definition valueType="real" default="0" />
+                    <Definition valueType="integer" default="0" />
                 </Item>
             </Definition>
         </Item>
+
+        <!-- 格子点属性(時系列) -->
+        <Item name="time_series_condition_n_r" caption="time_series_node(real)">
+            <Definition valueType="real" position="node" default="max" >
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_n_i" caption="time_series_node(integer)">
+            <Definition valueType="integer" position="node" default="max">
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_n_c" caption="time_series_node(complex)">
+            <Definition valueType="complex" position="node">
+                <Item name="time_series_condition_n_c_r" caption="time_series_node(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="time_series_condition_n_c_i" caption="time_series_node(complex) value(integer)">
+                    <Definition valueType="integer" default="0" />
+                </Item>
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+
+        <!-- セル属性 -->
         <Item name="condition_c_r" caption="cell(real)">
             <Definition valueType="real" position="cell" default="max" />
         </Item>
@@ -127,10 +153,35 @@ gridtype="structured2d"
                     <Definition valueType="real" default="0" />
                 </Item>
                 <Item name="condition_c_c_i" caption="cell(complex) value(integer)">
-                    <Definition valueType="real" default="0" />
+                    <Definition valueType="integer" default="0" />
                 </Item>
             </Definition>
         </Item>
+
+        <!-- セル属性(時系列) -->
+        <Item name="time_series_condition_c_r" caption="time_series_cell(real)">
+            <Definition valueType="real" position="cell" default="max" >
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_c_i" caption="time_series_cell(integer)">
+            <Definition valueType="integer" position="cell" default="max">
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_c_c" caption="time_series_cell(complex)">
+            <Definition valueType="complex" position="cell">
+                <Item name="time_series_condition_c_c_r" caption="time_series_cell(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="time_series_condition_c_c_i" caption="time_series_cell(complex) value(integer)">
+                    <Definition valueType="integer" default="0" />
+                </Item>
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+
+        <!-- iエッジ属性 -->
         <Item name="condition_ie_r" caption="iedge(real)">
             <Definition valueType="real" position="iface" default="max" />
         </Item>
@@ -143,10 +194,35 @@ gridtype="structured2d"
                     <Definition valueType="real" default="0" />
                 </Item>
                 <Item name="condition_ie_c_i" caption="iedge(complex) value(integer)">
-                    <Definition valueType="real" default="0" />
+                    <Definition valueType="integer" default="0" />
                 </Item>
             </Definition>
         </Item>
+
+        <!-- iエッジ属性(時系列) -->
+        <Item name="time_series_condition_ie_r" caption="time_series_iedge(real)">
+            <Definition valueType="real" position="iface" default="max" >
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_ie_i" caption="time_series_iedge(integer)">
+            <Definition valueType="integer" position="iface" default="max">
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_ie_c" caption="time_series_iedge(complex)">
+            <Definition valueType="complex" position="iface">
+                <Item name="time_series_condition_ie_c_r" caption="time_series_iedge(complex) value(real)">
+                    <Definition valueType="real" default="0" />
+                </Item>
+                <Item name="time_series_condition_ie_c_i" caption="time_series_iedge(complex) value(integer)">
+                    <Definition valueType="integer" default="0" />
+                </Item>
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+
+        <!-- jエッジ属性 -->
         <Item name="condition_je_r" caption="jedge(real)">
             <Definition valueType="real" position="jface" default="max" />
         </Item>
@@ -159,8 +235,31 @@ gridtype="structured2d"
                     <Definition valueType="real" default="0" />
                 </Item>
                 <Item name="condition_je_c_i" caption="jedge(complex) value(integer)">
+                    <Definition valueType="integer" default="0" />
+                </Item>
+            </Definition>
+        </Item>
+
+        <!-- iエッジ属性(時系列) -->
+        <Item name="time_series_condition_je_r" caption="time_series_jedge(real)">
+            <Definition valueType="real" position="jface" default="max" >
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_je_i" caption="time_series_jedge(integer)">
+            <Definition valueType="integer" position="jface" default="max">
+                <Dimension name="Time" caption="Time" valueType="real"/>
+            </Definition>
+        </Item>
+        <Item name="time_series_condition_je_c" caption="time_series_jedge(complex)">
+            <Definition valueType="complex" position="jface">
+                <Item name="time_series_condition_je_c_r" caption="time_series_jedge(complex) value(real)">
                     <Definition valueType="real" default="0" />
                 </Item>
+                <Item name="time_series_condition_je_c_i" caption="time_series_jedge(complex) value(integer)">
+                    <Definition valueType="integer" default="0" />
+                </Item>
+                <Dimension name="Time" caption="Time" valueType="real"/>
             </Definition>
         </Item>
     </GridRelatedCondition>
